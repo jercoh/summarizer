@@ -1,0 +1,20 @@
+#form {
+	display: none;
+	padding-top: 34%;
+}
+#form input {
+	width: 350px;
+	margin: 0 auto;
+	height: 40px;
+	font-size: 17px;
+}
+@media only screen and (min-width: 768px) {
+	#form {
+		height: 664px;
+	}
+	#form input {
+		width: 500px;
+		height: 50px;
+		font-size: 20px;
+	}
+}
