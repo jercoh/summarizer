@@ -20,6 +20,7 @@ class Summarizer():
 		self.sentences = []
 		self.paragraphs = []
 		self.split_into_paragraphs()
+		self.paragraphs = self.group_small_paragraphs(3)
 		self.split_into_sentences()
 		self.compute_scores()
 
@@ -44,6 +45,54 @@ class Summarizer():
 	def split_into_paragraphs(self):
 		""" compute an array of paragraphs """
 		self.paragraphs = [x for x in self.text.split('\n\n') if x != '']
+
+	def group_small_paragraphs(self, limit):
+		l = self.paragraphs
+		first_index = 0
+		second_index = 0
+		if len(l) <= 1:
+			return l
+		while first_index < len(l):
+			if len(TextBlob(l[first_index]).sentences) <= limit and first_index != len(l) - 1:
+				second_index = first_index + 1
+				p = l[first_index] + ' ' + l[second_index]
+				while len(TextBlob(p).sentences) <= limit and second_index < len(l) -1:
+					second_index += 1
+					p += ' ' + l[second_index]
+				l = l[:first_index] + [p] + l[second_index+1:]
+				first_index = 0 
+				second_index = 0
+			else:
+				first_index += 1
+				second_index += 1
+		return l
+
+	##################################
+	# compress a list 				 #
+	# [1,1,2,3,1,2,5] ----> [4,3,3,5]#
+	##################################
+	def zip(l):
+		first_index = 0
+		second_index = 0
+		if len(l) <= 1:
+			return l
+		while first_index < len(l):
+			if l[first_index] <= 2 and first_index != len(l) - 1:
+				second_index = first_index + 1
+				p = l[first_index] + l[second_index]
+				while p <= 2 and second_index < len(l) -1:
+					second_index += 1
+					p += l[second_index]
+				l = l[:first_index] + [p] + l[second_index+1:]
+				first_index = 0 
+				second_index = 0
+			else:
+				first_index += 1
+				second_index += 1
+		return l
+
+
+
 
 	def split_into_sentences(self):
 		sentences = []
