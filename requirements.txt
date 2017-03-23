@@ -1,0 +1,5 @@
+flask
+flask-restful==0.3.5
+nltk
+textblob
+newspaper

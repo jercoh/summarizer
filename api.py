@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, render_template, Markup
-from flask.ext.restful import reqparse, abort, Api, Resource
+from flask_restful import reqparse, abort, Api, Resource
 from summarizer import Summarizer
 
 
